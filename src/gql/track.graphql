@@ -1,0 +1,11 @@
+query GetTracks($limit: Int!) {
+  tracks(limit: $limit) {
+    id
+    title
+    duration
+    album {
+      id
+      name
+    }
+  }
+}
