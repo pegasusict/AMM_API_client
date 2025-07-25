@@ -8,6 +8,6 @@ class User(BaseModel):
 
 
 class PlaybackState(BaseModel):
-    currentTrackId: str | None
+    current_track_id: str | None
     position: int
-    isPlaying: bool
+    is_playing: bool
