@@ -1,0 +1,8 @@
+query PaginatedLabels($limit: Int!, $offset: Int!) {
+  labels(limit: $limit, offset: $offset) {
+    id
+    name
+    founded
+    defunct
+  }
+}

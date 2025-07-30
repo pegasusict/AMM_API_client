@@ -1,0 +1,8 @@
+query TracksByGenre($genreId: Int!, $limit: Int!) {
+  tracksByGenre(genreId: $genreId, limit: $limit) {
+    id
+    title
+    genres
+    duration
+  }
+}

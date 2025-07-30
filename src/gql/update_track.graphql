@@ -1,0 +1,11 @@
+mutation UpdateTrack($trackId: Int!, $input: TrackInput!) {
+  updateTrack(trackId: $trackId, input: $input) {
+    id
+    title
+    subtitle
+    duration
+    releasedate
+    key
+    genres
+  }
+}

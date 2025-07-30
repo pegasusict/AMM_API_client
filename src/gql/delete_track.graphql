@@ -1,0 +1,6 @@
+mutation DeleteTrack($trackId: Int!) {
+  deleteTrack(trackId: $trackId) {
+    success
+    message
+  }
+}

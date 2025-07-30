@@ -1,0 +1,7 @@
+query SearchAlbums($query: String!, $limit: Int!) {
+  searchAlbums(query: $query, limit: $limit) {
+    id
+    title
+    releasedate
+  }
+}

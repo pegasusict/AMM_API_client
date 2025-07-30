@@ -1,5 +1,5 @@
-query PlaybackState {
-  playbackState {
+subscription OnPlayerStatus {
+  playerStatus {
     is_playing
     current_track {
       id

@@ -1,0 +1,10 @@
+query PaginatedAlbums($limit: Int!, $offset: Int!) {
+  albums(limit: $limit, offset: $offset) {
+    id
+    title
+    releasedate
+    genres
+    label
+    track_count
+  }
+}

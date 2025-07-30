@@ -41,3 +41,36 @@ async def test_get_tracks_empty():
     service = TrackService(EmptyClient())  # type: ignore
     tracks = await service.get_tracks()
     assert tracks == []
+
+
+@pytest.mark.asyncio
+async def test_get_tracks_paginated():
+    class Client:
+        async def execute(self, query, variables):
+            return {"tracks": [{"id": 1, "title": "Paginated", "duration": 240}]}
+
+    service = TrackService(Client())
+    results = await service.get_tracks_paginated(limit=1, offset=0)
+    assert results[0].title == "Paginated"
+
+
+@pytest.mark.asyncio
+async def test_search_tracks():
+    class Client:
+        async def execute(self, query, variables):
+            return {"searchTracks": [{"id": 2, "title": "Search Match", "duration": 180}]}
+
+    service = TrackService(Client())
+    results = await service.search_tracks("Search", limit=1)
+    assert results[0].title == "Search Match"
+
+
+@pytest.mark.asyncio
+async def test_get_tracks_by_genre():
+    class Client:
+        async def execute(self, query, variables):
+            return {"tracksByGenre": [{"id": 3, "title": "Genre Match", "genres": [1], "duration": 200}]}
+
+    service = TrackService(Client())
+    results = await service.get_tracks_by_genre(genre_id=1, limit=1)
+    assert results[0].title == "Genre Match"

@@ -1,0 +1,6 @@
+mutation DeletePerson($personId: Int!) {
+  deletePerson(personId: $personId) {
+    success
+    message
+  }
+}

@@ -1,0 +1,9 @@
+query DisplayTasks {
+  displayTasks {
+    task_id
+    task_type
+    progress
+    start_time
+    status
+  }
+}

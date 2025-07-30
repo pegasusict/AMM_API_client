@@ -1,0 +1,9 @@
+mutation UpdateLabel($labelId: Int!, $input: LabelInput!) {
+  updateLabel(labelId: $labelId, input: $input) {
+    id
+    name
+    description
+    founded
+    defunct
+  }
+}

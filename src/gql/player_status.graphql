@@ -1,14 +1,11 @@
-query PlaybackState {
-  playbackState {
+query PlayerStatus {
+  playerStatus {
     is_playing
     current_track {
       id
       title
-      subtitle
       artists
-      album_picture
       duration_seconds
-      lyrics
     }
   }
 }

@@ -1,0 +1,6 @@
+mutation DeleteGenre($genreId: Int!) {
+  deleteGenre(genreId: $genreId) {
+    success
+    message
+  }
+}

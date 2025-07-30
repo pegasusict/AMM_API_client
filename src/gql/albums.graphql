@@ -1,0 +1,11 @@
+query GetAlbums($limit: Int!) {
+  albums(limit: $limit) {
+    id
+    title
+    releasedate
+    label
+    genres
+    artists
+    track_count
+  }
+}

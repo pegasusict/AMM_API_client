@@ -1,0 +1,9 @@
+query GetLabels {
+  labels {
+    id
+    name
+    description
+    founded
+    defunct
+  }
+}

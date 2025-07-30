@@ -1,0 +1,6 @@
+mutation DeleteLabel($labelId: Int!) {
+  deleteLabel(labelId: $labelId) {
+    success
+    message
+  }
+}

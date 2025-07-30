@@ -1,0 +1,10 @@
+query Stats {
+  stats {
+    id
+    name
+    value
+    range_start
+    range_end
+    unit
+  }
+}

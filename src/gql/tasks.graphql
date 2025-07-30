@@ -1,0 +1,11 @@
+query Tasks {
+  tasks {
+    id
+    task_id
+    task_type
+    start_time
+    end_time
+    status
+    progress
+  }
+}

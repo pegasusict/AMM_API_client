@@ -1,0 +1,6 @@
+mutation DeleteAlbum($albumId: Int!) {
+  deleteAlbum(albumId: $albumId) {
+    success
+    message
+  }
+}

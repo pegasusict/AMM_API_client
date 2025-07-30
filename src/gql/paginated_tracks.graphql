@@ -1,0 +1,8 @@
+query PaginatedTracks($limit: Int!, $offset: Int!) {
+  tracks(limit: $limit, offset: $offset) {
+    id
+    title
+    subtitle
+    duration
+  }
+}

@@ -1,0 +1,9 @@
+mutation UpdateAlbum($albumId: Int!, $input: AlbumInput!) {
+  updateAlbum(albumId: $albumId, input: $input) {
+    id
+    title
+    releasedate
+    subtitle
+    label
+  }
+}

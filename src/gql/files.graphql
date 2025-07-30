@@ -1,0 +1,12 @@
+query GetFiles($limit: Int!) {
+  files(limit: $limit) {
+    id
+    file_name
+    file_type
+    size
+    codec
+    bitrate
+    duration
+    stage
+  }
+}
