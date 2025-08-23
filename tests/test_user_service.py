@@ -1,24 +1,26 @@
 import pytest
-from services.user_service import UserService
-from models.user import User, PlaybackState
-
-
-class FakeUserClient:
-    async def execute(self, query, variables=None):
-        if "playbackState" in query:
-            return {"playbackState": {"currentTrackId": "1", "position": 42, "isPlaying": True}}
-        return {"me": {"id": "u1", "email": "test@site.com", "name": "Tester"}}
+from services import UserService
+from models import User
 
 
 @pytest.mark.asyncio
-async def test_get_me():
-    service = UserService(FakeUserClient())  # type: ignore
-    user = await service.get_me()
+async def test_me(gql_client):
+    service = UserService(gql_client)
+    user = await service.me()
     assert isinstance(user, User)
+    assert user.username == "testuser"
 
 
 @pytest.mark.asyncio
-async def test_playback_state():
-    service = UserService(FakeUserClient())  # type: ignore
-    state = await service.get_playback_state()
-    assert isinstance(state, PlaybackState)
+async def test_login(gql_client):
+    service = UserService(gql_client)
+    result = await service.login("u", "p")
+    assert "accessToken" in result
+    assert result["accessToken"] == "fake-token"
+
+
+@pytest.mark.asyncio
+async def test_refresh(gql_client):
+    service = UserService(gql_client)
+    result = await service.refresh("refresh-token")
+    assert result["accessToken"] == "new-token"

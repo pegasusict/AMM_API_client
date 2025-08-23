@@ -1,0 +1,7 @@
+query GetPlaylist($playlistId: Int!) {
+  playlist(id: $playlistId) {
+    id
+    name
+    track_ids
+  }
+}

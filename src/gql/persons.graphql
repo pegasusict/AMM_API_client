@@ -1,9 +1,0 @@
-query GetPersons {
-  persons {
-    id
-    full_name
-    alias
-    nick_name
-    date_of_birth
-  }
-}

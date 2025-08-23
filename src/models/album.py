@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional, List
-from datetime import date
+from typing import Optional, List, Generic, TypeVar
+from datetime import date, datetime
 
 
 class Album(BaseModel):
@@ -19,7 +19,7 @@ class Album(BaseModel):
     composers: Optional[List[int]]
     lyricists: Optional[List[int]]
     producers: Optional[List[int]]
-    picture: Optional[str]  # Assuming server returns str path/URL
+    picture: Optional[str]
     disc_count: Optional[int]
     track_count: Optional[int]
     task_id: Optional[int]

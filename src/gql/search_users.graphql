@@ -1,0 +1,11 @@
+query SearchUsers($query: String!, $limit: Int!) {
+  searchUsers(query: $query, limit: $limit) {
+    id
+    username
+    email
+    first_name
+    last_name
+    role
+    is_active
+  }
+}

@@ -4,5 +4,6 @@ query TracksByGenre($genreId: Int!, $limit: Int!) {
     title
     genres
     duration
+    artists
   }
 }

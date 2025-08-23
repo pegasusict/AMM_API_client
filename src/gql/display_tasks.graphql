@@ -1,9 +1,11 @@
-query DisplayTasks {
-  displayTasks {
-    task_id
-    task_type
-    progress
-    start_time
+query GetTaskDisplay {
+  getTaskDisplay {
+    id
+    taskType
     status
+    started
+    finished
+    progress
+    message
   }
 }

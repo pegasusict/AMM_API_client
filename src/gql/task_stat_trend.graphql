@@ -1,0 +1,29 @@
+query TaskStatTrend($taskType: TaskType!) {
+  taskStatTrend(taskType: $taskType) {
+    taskType
+    imported {
+      timestamp
+      value
+    }
+    parsed {
+      timestamp
+      value
+    }
+    trimmed {
+      timestamp
+      value
+    }
+    deduped {
+      timestamp
+      value
+    }
+    totalPlaytime {
+      timestamp
+      value
+    }
+    totalFilesize {
+      timestamp
+      value
+    }
+  }
+}

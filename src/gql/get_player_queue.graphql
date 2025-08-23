@@ -1,0 +1,9 @@
+query GetPlayerQueue {
+  playerQueue {
+    id
+    title
+    artists
+    album_picture
+    duration_seconds
+  }
+}

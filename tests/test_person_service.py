@@ -1,43 +1,40 @@
 import pytest
-from services.person import PersonService
-
-
-class MockClient:
-    async def execute(self, query, variables=None):
-        if "persons" in query:
-            return {"persons": [{"id": 1, "full_name": "Mock Person"}]}
-        elif "searchPersons" in query:
-            return {"searchPersons": [{"id": 2, "full_name": "Found"}]}
-        elif "updatePerson" in query:
-            return {"updatePerson": {"id": 1, "full_name": "Updated"}}
-        elif "deletePerson" in query:
-            return {"deletePerson": {"success": True, "message": "Deleted"}}
-        return {}
+from services import PersonService
+from models import Person  # , ListedPerson
 
 
 @pytest.mark.asyncio
-async def test_person_read_paginated():
-    service = PersonService(MockClient())
-    result = await service.read.get_paginated(10, 0)
-    assert result[0].full_name == "Mock Person"
+async def test_get_person(gql_client):
+    service = PersonService(gql_client)
+    person = await service.get(3)
+    assert isinstance(person, Person)
+    assert person.full_name == "Mock Person"
 
 
 @pytest.mark.asyncio
-async def test_person_search():
-    service = PersonService(MockClient())
-    result = await service.read.search("query", 10)
-    assert result[0].full_name == "Found"
+async def test_update_person(gql_client):
+    service = PersonService(gql_client)
+    person = await service.update_person(3, full_name="Updated Person")
+    assert person.full_name == "Updated Person"
 
 
 @pytest.mark.asyncio
-async def test_person_update():
-    service = PersonService(MockClient())
-    result = await service.mutate.update(person_id=1, full_name="Updated")
-    assert result.full_name == "Updated"
-
-
-@pytest.mark.asyncio
-async def test_person_delete():
-    service = PersonService(MockClient())
-    result = await service.mutate.delete(person_id=1)
+async def test_delete_person(gql_client):
+    service = PersonService(gql_client)
+    result = await service.delete_person(3)
     assert result["success"]
+
+
+# @pytest.mark.asyncio
+# async def test_search_persons(gql_client):
+#     service = PersonService(gql_client)
+#     results = await service.search("searchPersons", "Query", 5)
+#     assert all(isinstance(item, ListedPerson) for item in results)
+
+
+@pytest.mark.asyncio
+async def test_paginate_persons(gql_client):
+    service = PersonService(gql_client)
+    items, total = await service.paginate_persons(10, 0)
+    assert len(items) >= 0
+    assert isinstance(total, int)

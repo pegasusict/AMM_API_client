@@ -1,0 +1,12 @@
+query GetLabel($labelId: Int!) {
+  label(id: $labelId) {
+    id
+    mbid
+    name
+    description
+    founded
+    defunct
+    albums
+    picture
+  }
+}

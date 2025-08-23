@@ -1,0 +1,15 @@
+query PaginatedFiles($limit: Int!, $offset: Int!) {
+  paginatedFiles(limit: $limit, offset: $offset) {
+    items {
+      id
+      file_path
+      file_name
+      file_type
+      size
+      codec
+      duration
+      track_id
+    }
+    total
+  }
+}

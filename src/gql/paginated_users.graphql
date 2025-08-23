@@ -1,0 +1,14 @@
+query PaginatedUsers($limit: Int!, $offset: Int!) {
+  paginatedUsers(limit: $limit, offset: $offset) {
+    items {
+      id
+      username
+      email
+      first_name
+      last_name
+      role
+      is_active
+    }
+    total
+  }
+}

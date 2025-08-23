@@ -1,0 +1,10 @@
+query PaginatedGenres($limit: Int!, $offset: Int!) {
+  getGenres(limit: $limit, offset: $offset) {
+    items {
+      id
+      name
+      description
+    }
+    total
+  }
+}

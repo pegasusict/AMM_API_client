@@ -1,0 +1,11 @@
+query TaskStats($taskType: TaskType!) {
+  taskStats(taskType: $taskType) {
+    taskType
+    imported
+    parsed
+    trimmed
+    deduped
+    totalPlaytime
+    totalFilesize
+  }
+}

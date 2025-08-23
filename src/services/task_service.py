@@ -1,26 +1,45 @@
+from typing import Optional
 from client import AMMGraphQLClient
-from models.display_task import DisplayTask
-from models.stat import Stat
-from utils.graphql_helpers import load_query
-from errors import GraphQLClientError
+from .base_service import BaseService
+from models import (
+    DisplayTask,
+    TaskStats,
+    TaskStatTrend,
+    TaskStatSummary,
+)
+from gql import (
+    DISPLAY_TASKS,
+    TASK_STATS,
+    TASK_STAT_TREND,
+    TASK_STAT_SUMMARY,
+)
 
 
-class TaskService:
+class TaskService(BaseService):
+    """Service for fetching task information and statistics."""
+
     def __init__(self, gql: AMMGraphQLClient):
-        self.gql = gql
-        self.query_display = load_query("display_tasks")
-        self.query_stats = load_query("stats")
+        super().__init__(gql)
 
     async def get_display_tasks(self) -> list[DisplayTask]:
-        try:
-            result = await self.gql.execute(self.query_display)
-            return [DisplayTask(**task) for task in result["displayTasks"]]
-        except Exception as e:
-            raise GraphQLClientError("Failed to fetch display tasks", "get_display_tasks", e) from e
+        """Fetch a list of tasks."""
+        result = await self._exec("list_tasks", DISPLAY_TASKS)
+        return [DisplayTask(**item) for item in result["getTaskDisplay"]]
 
-    async def get_stats(self) -> list[Stat]:
-        try:
-            result = await self.gql.execute(self.query_stats)
-            return [Stat(**stat) for stat in result["stats"]]
-        except Exception as e:
-            raise GraphQLClientError("Failed to fetch stats", "get_stats", e) from e
+    async def get_task_stats(self, task_type: str) -> Optional[TaskStats]:
+        """Fetch aggregated statistics for a task type."""
+        result = await self._exec("task_stats", TASK_STATS, {"taskType": task_type})
+        stats = result.get("taskStats")
+        return TaskStats(**stats) if stats else None
+
+    async def get_task_stat_trend(self, task_type: str) -> Optional[TaskStatTrend]:
+        """Fetch timeseries trend for a task type."""
+        result = await self._exec("task_stat_trend", TASK_STAT_TREND, {"taskType": task_type})
+        trend = result.get("taskStatTrend")
+        return TaskStatTrend(**trend) if trend else None
+
+    async def get_task_stat_summary(self, task_type: str) -> Optional[TaskStatSummary]:
+        """Fetch delta-based summary stats for a task type."""
+        result = await self._exec("task_stat_summary", TASK_STAT_SUMMARY, {"taskType": task_type})
+        summary = result.get("taskStatSummary")
+        return TaskStatSummary(**summary) if summary else None

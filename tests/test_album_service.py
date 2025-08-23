@@ -1,43 +1,25 @@
 import pytest
-from services.album import AlbumService
-
-
-class MockClient:
-    async def execute(self, query, variables=None):
-        if "albums" in query:
-            return {"albums": [{"id": 1, "title": "Mock Album"}]}
-        elif "searchAlbums" in query:
-            return {"searchAlbums": [{"id": 2, "title": "Found"}]}
-        elif "updateAlbum" in query:
-            return {"updateAlbum": {"id": 1, "title": "Updated"}}
-        elif "deleteAlbum" in query:
-            return {"deleteAlbum": {"success": True, "message": "Deleted"}}
-        return {}
+from services import AlbumService
+from models import Album
 
 
 @pytest.mark.asyncio
-async def test_album_read_paginated():
-    service = AlbumService(MockClient())
-    result = await service.read.get_paginated(10, 0)
-    assert result[0].title == "Mock Album"
+async def test_get_album(gql_client):
+    service = AlbumService(gql_client)
+    album = await service.get(10)
+    assert isinstance(album, Album)
+    assert album.title == "Mock Album"
 
 
 @pytest.mark.asyncio
-async def test_album_search():
-    service = AlbumService(MockClient())
-    result = await service.read.search("query", 10)
-    assert result[0].title == "Found"
+async def test_update_album(gql_client):
+    service = AlbumService(gql_client)
+    album = await service.update_album(10, title="Updated Album")
+    assert album.title == "Updated Album"
 
 
 @pytest.mark.asyncio
-async def test_album_update():
-    service = AlbumService(MockClient())
-    result = await service.mutate.update(album_id=1, title="Updated")
-    assert result.title == "Updated"
-
-
-@pytest.mark.asyncio
-async def test_album_delete():
-    service = AlbumService(MockClient())
-    result = await service.mutate.delete(album_id=1)
-    assert result["success"]
+async def test_delete_album(gql_client):
+    service = AlbumService(gql_client)
+    result = await service.delete_album(10)
+    assert result["success"] is True

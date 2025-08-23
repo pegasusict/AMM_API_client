@@ -1,0 +1,35 @@
+query TaskStatSummary($taskType: TaskType!) {
+  taskStatSummary(taskType: $taskType) {
+    taskType
+    imported {
+      value
+      change
+      percentage
+    }
+    parsed {
+      value
+      change
+      percentage
+    }
+    trimmed {
+      value
+      change
+      percentage
+    }
+    deduped {
+      value
+      change
+      percentage
+    }
+    totalPlaytime {
+      value
+      change
+      percentage
+    }
+    totalFilesize {
+      value
+      change
+      percentage
+    }
+  }
+}

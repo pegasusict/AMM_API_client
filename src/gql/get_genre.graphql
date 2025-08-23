@@ -1,0 +1,9 @@
+query GetGenre($genreId: Int!) {
+  genre(id: $genreId) {
+    id
+    name
+    description
+    albums
+    tracks
+  }
+}

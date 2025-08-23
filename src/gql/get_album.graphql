@@ -1,0 +1,15 @@
+query GetAlbum($albumId: Int!) {
+  album(id: $albumId) {
+    id
+    mbid
+    title
+    subtitle
+    releasedate
+    release_country
+    label
+    tracks
+    genres
+    artists
+    picture
+  }
+}

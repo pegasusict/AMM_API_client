@@ -1,11 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional, List
-from datetime import date
-
-
-class Album(BaseModel):
-    id: str
-    name: str
+from typing import Optional, List, Generic, TypeVar
+from datetime import date, datetime
 
 
 class Track(BaseModel):

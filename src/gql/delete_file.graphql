@@ -1,0 +1,6 @@
+mutation DeleteFile($fileId: Int!) {
+  deleteFile(fileId: $fileId) {
+    success
+    message
+  }
+}

@@ -1,5 +1,5 @@
-query PlaybackState {
-  playbackState {
+query GetPlayerStatus {
+  getPlayerStatus {
     is_playing
     current_track {
       id

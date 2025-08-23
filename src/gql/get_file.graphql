@@ -1,0 +1,12 @@
+query GetFile($fileId: Int!) {
+  file(id: $fileId) {
+    id
+    file_name
+    file_type
+    size
+    codec
+    bitrate
+    duration
+    stage
+  }
+}

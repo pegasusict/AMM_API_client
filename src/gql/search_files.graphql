@@ -1,0 +1,12 @@
+query SearchFiles($query: String!, $limit: Int!) {
+  searchFiles(query: $query, limit: $limit) {
+    id
+    file_path
+    file_name
+    file_type
+    size
+    codec
+    duration
+    track_id
+  }
+}

@@ -1,0 +1,12 @@
+query GetPerson($personId: Int!) {
+  person(id: $personId) {
+    id
+    mbid
+    full_name
+    alias
+    nick_name
+    date_of_birth
+    date_of_death
+    picture
+  }
+}

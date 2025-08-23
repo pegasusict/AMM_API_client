@@ -1,0 +1,16 @@
+mutation UpdateFile($fileId: Int!, $input: FileInput!) {
+  updateFile(fileId: $fileId, input: $input) {
+    id
+    file_path
+    file_name
+    file_type
+    updated_at
+    codec
+    bitrate
+    sample_rate
+    channels
+    duration
+    fingerprint
+    track_id
+  }
+}

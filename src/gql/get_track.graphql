@@ -1,0 +1,14 @@
+query GetTrack($trackId: Int!) {
+  track(id: $trackId) {
+    id
+    mbid
+    title
+    subtitle
+    artists
+    albums
+    genres
+    releasedate
+    lyrics
+    files
+  }
+}

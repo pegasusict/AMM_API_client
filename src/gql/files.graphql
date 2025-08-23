@@ -1,12 +1,13 @@
-query GetFiles($limit: Int!) {
-  files(limit: $limit) {
+query Files {
+  files {
     id
-    file_name
-    file_type
-    size
+    filename
+    filepath
+    filesize
     codec
-    bitrate
     duration
+    createdAt
+    updatedAt
     stage
   }
 }

@@ -1,76 +1,41 @@
 import pytest
-
-# import asyncio
-from typing import Optional
-from services.track_service import TrackService
-from models.track import Track
-# from client import AMMGraphQLClient
-
-
-class FakeGraphQLClient:
-    async def execute(self, query_str: str, variables: Optional[dict] = None) -> dict:
-        return {
-            "tracks": [
-                {
-                    "id": "1",
-                    "title": "Test Track",
-                    "duration": 180,
-                    "album": {"id": "a1", "name": "Test Album"},
-                }
-            ]
-        }
+from services import TrackService
+from models import Track, ListedTrack
 
 
 @pytest.mark.asyncio
-async def test_get_tracks_success():
-    client = FakeGraphQLClient()
-    service = TrackService(client)  # type: ignore
-    tracks = await service.get_tracks()
-
-    assert isinstance(tracks, list)
-    assert isinstance(tracks[0], Track)
-    assert tracks[0].title == "Test Track"
+async def test_get_track(gql_client):
+    service = TrackService(gql_client)
+    track = await service.get(42)
+    assert isinstance(track, Track)
+    assert track.title == "Mock Track"
 
 
 @pytest.mark.asyncio
-async def test_get_tracks_empty():
-    class EmptyClient:
-        async def execute(self, query_str: str, variables: Optional[dict] = None) -> dict:
-            return {"tracks": []}
-
-    service = TrackService(EmptyClient())  # type: ignore
-    tracks = await service.get_tracks()
-    assert tracks == []
+async def test_update_track(gql_client):
+    service = TrackService(gql_client)
+    track = await service.update_track(42, title="Updated Track")
+    assert track.title == "Updated Track"
 
 
 @pytest.mark.asyncio
-async def test_get_tracks_paginated():
-    class Client:
-        async def execute(self, query, variables):
-            return {"tracks": [{"id": 1, "title": "Paginated", "duration": 240}]}
-
-    service = TrackService(Client())
-    results = await service.get_tracks_paginated(limit=1, offset=0)
-    assert results[0].title == "Paginated"
+async def test_delete_track(gql_client):
+    service = TrackService(gql_client)
+    result = await service.delete_track(42)
+    assert result["success"]
 
 
 @pytest.mark.asyncio
-async def test_search_tracks():
-    class Client:
-        async def execute(self, query, variables):
-            return {"searchTracks": [{"id": 2, "title": "Search Match", "duration": 180}]}
-
-    service = TrackService(Client())
-    results = await service.search_tracks("Search", limit=1)
-    assert results[0].title == "Search Match"
+async def test_search_tracks(gql_client):
+    service = TrackService(gql_client)
+    results = await service.search_tracks("Query", 5)
+    assert all(isinstance(item, ListedTrack) for item in results)
+    assert len(results) == 2
 
 
 @pytest.mark.asyncio
-async def test_get_tracks_by_genre():
-    class Client:
-        async def execute(self, query, variables):
-            return {"tracksByGenre": [{"id": 3, "title": "Genre Match", "genres": [1], "duration": 200}]}
-
-    service = TrackService(Client())
-    results = await service.get_tracks_by_genre(genre_id=1, limit=1)
-    assert results[0].title == "Genre Match"
+async def test_paginate_tracks(gql_client):
+    service = TrackService(gql_client)
+    items, total = await service.paginate_tracks(10, 0)
+    assert len(items) == 1
+    assert total == 1
