@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List, Generic, TypeVar
-from datetime import date, datetime
+from typing import Optional, List
 
 
 class Genre(BaseModel):
