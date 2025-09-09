@@ -1,14 +1,15 @@
-subscription OnPlayerStatus {
-  playerStatus {
-    is_playing
-    current_track {
+subscription {
+  trackChanged {
+    id
+    title
+    duration
+    album {
       id
-      title
-      subtitle
-      artists
-      album_picture
-      duration_seconds
-      lyrics
+      name
+    }
+    artists {
+      id
+      name
     }
   }
 }

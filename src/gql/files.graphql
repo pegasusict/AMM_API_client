@@ -1,11 +1,16 @@
-query Files {
-  files {
+query Files($limit: Int!, $offset: Int!) {
+  files(limit: $limit, offset: $offset) {
     id
-    filename
-    filepath
-    filesize
+    path
+    fileName
+    fileType
     codec
+    bitrate
+    samplerate
+    channels
     duration
+    fingerprint
+    trackId
     createdAt
     updatedAt
     stage

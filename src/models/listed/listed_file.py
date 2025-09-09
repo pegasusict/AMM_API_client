@@ -1,16 +1,15 @@
 from pydantic import BaseModel
-from typing import Optional
-from datetime import datetime
 
 
 class ListedFile(BaseModel):
-    """Lightweight model for representing files in lists/pagination."""
+    """Lightweight File model used in paginated listings."""
 
     id: int
-    file_name: Optional[str] = None
-    file_type: Optional[str] = None
-    file_extension: Optional[str] = None
-    size: Optional[int] = None
-    duration: Optional[int] = None
-    imported: Optional[datetime] = None
-    processed: Optional[datetime] = None
+    path: str
+    fileName: str
+    fileType: str
+    size: int
+    codec: str | None = None
+    bitrate: int | None = None
+    duration: int | None = None
+    stage: str

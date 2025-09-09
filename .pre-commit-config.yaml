@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: update-gql-init
+        name: Update gql/__init__.py
+        entry: python scripts/update_gql_init.py
+        language: system
+        files: ^gql/.*\.graphql$

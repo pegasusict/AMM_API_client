@@ -1,0 +1,10 @@
+query GetUser($userId: Int!) {
+  getUser(userId: $userId) {
+    id
+    username
+    email
+    role
+    createdAt
+    updatedAt
+  }
+}

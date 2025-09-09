@@ -1,12 +1,18 @@
 query GetFile($fileId: Int!) {
-  file(id: $fileId) {
+  getFile(fileId: $fileId) {
     id
-    file_name
-    file_type
-    size
+    path
+    fileName
+    fileType
     codec
     bitrate
+    samplerate
+    channels
     duration
+    fingerprint
+    trackId
+    createdAt
+    updatedAt
     stage
   }
 }

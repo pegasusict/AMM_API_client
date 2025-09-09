@@ -1,21 +1,28 @@
-from services.crud_service import CRUDService
-from models.label import Label
-from models.listed.listed_label import ListedLabel
+from models import Label, ListedLabel
+from .crud_service import CRUDService
+from gql import (
+    GET_LABEL,
+    UPDATE_LABEL,
+    DELETE_LABEL,
+    PAGINATED_LABELS,
+)
 
 
 class LabelService(CRUDService):
-    def __init__(self, gql):
-        super().__init__(gql, list_model=ListedLabel, detail_model=Label)
+    """Service for managing record labels."""
 
-    async def get(self, label_id: int) -> Label:
-        result = await self._exec("get", "get_label.graphql", {"labelId": label_id})
-        return self.detail_model(**result["label"])  # type: ignore
+    def __init__(self, gql_client):
+        super().__init__(gql_client, list_model=ListedLabel, detail_model=Label)
+
+    async def get_label(self, label_id: int) -> Label:
+        result = await self._exec("get_label", GET_LABEL, {"labelId": label_id})
+        return Label(**result["getLabel"])
 
     async def update_label(self, label_id: int, **fields) -> Label:
-        return await self.update("update_label.graphql", "label", label_id, **fields)
+        return await self.update(UPDATE_LABEL, "label", label_id, **fields)
 
-    async def delete_label(self, label_id: int):
-        return await self.delete("delete_label.graphql", "label", label_id)
+    async def delete_label(self, label_id: int) -> bool:
+        return await self.delete(DELETE_LABEL, "label", label_id)  # type: ignore
 
-    async def paginate_labels(self, limit: int, offset: int):
-        return await self.paginate_with_total("paginated_labels.graphql", "paginatedLabels", limit, offset)
+    async def paginate_labels(self, limit: int = 10, offset: int = 0):
+        return await self.paginate_with_total(PAGINATED_LABELS, "paginatedLabels", limit, offset)

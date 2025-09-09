@@ -1,24 +1,32 @@
-from services.crud_service import CRUDService
-from models.album import Album
-from models.listed.listed_album import ListedAlbum
+from models import Album, ListedAlbum
+from .crud_service import CRUDService
+from gql import (
+    GET_ALBUM,
+    UPDATE_ALBUM,
+    DELETE_ALBUM,
+    SEARCH_ALBUMS,
+    PAGINATED_ALBUMS,
+)
 
 
 class AlbumService(CRUDService):
-    def __init__(self, gql):
-        super().__init__(gql, list_model=ListedAlbum, detail_model=Album)
+    """Service for managing albums."""
 
-    async def get(self, album_id: int) -> Album:
-        result = await self._exec("get", "get_album.graphql", {"albumId": album_id})
-        return self.detail_model(**result["album"])  # type: ignore
+    def __init__(self, gql_client):
+        super().__init__(gql_client, list_model=ListedAlbum, detail_model=Album)
+
+    async def get_album(self, album_id: int) -> Album:
+        result = await self._exec("get_album", GET_ALBUM, {"albumId": album_id})
+        return Album(**result["getAlbum"])
 
     async def update_album(self, album_id: int, **fields) -> Album:
-        return await self.update("update_album.graphql", "album", album_id, **fields)
+        return await self.update(UPDATE_ALBUM, "album", album_id, **fields)
 
-    async def delete_album(self, album_id: int):
-        return await self.delete("delete_album.graphql", "album", album_id)
+    async def delete_album(self, album_id: int) -> bool:
+        return await self.delete(DELETE_ALBUM, "album", album_id)  # type: ignore
 
-    async def search_albums(self, query: str, limit: int = 10):
-        return await self.search("search_albums.graphql", "searchAlbums", query, limit)
+    async def search_albums(self, query: str, limit: int = 10) -> list[ListedAlbum]:
+        return await self.search(SEARCH_ALBUMS, "searchAlbums", query, limit)
 
-    async def paginate_albums(self, limit: int, offset: int):
-        return await self.paginate_with_total("paginated_albums.graphql", "paginatedAlbums", limit, offset)
+    async def paginate_albums(self, limit: int = 10, offset: int = 0):
+        return await self.paginate_with_total(PAGINATED_ALBUMS, "paginatedAlbums", limit, offset)

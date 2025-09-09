@@ -1,17 +1,18 @@
-from dataclasses import dataclass
-from typing import Optional
 from datetime import datetime
+from pydantic import BaseModel
 
 
-@dataclass
-class File:
-    """Represents a media file stored in the system."""
+class File(BaseModel):
+    """Detailed File model returned by get_file query."""
 
     id: int
-    filename: str
-    filepath: str
-    filesize: int  # in bytes
-    mimetype: Optional[str] = None
-    duration: Optional[float] = None  # in seconds
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
+    path: str
+    fileName: str
+    fileType: str
+    size: int
+    codec: str | None = None
+    bitrate: int | None = None
+    duration: int | None = None
+    stage: str
+    createdAt: datetime
+    updatedAt: datetime

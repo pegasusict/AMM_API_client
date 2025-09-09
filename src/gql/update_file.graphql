@@ -1,16 +1,18 @@
 mutation UpdateFile($fileId: Int!, $input: FileInput!) {
-  updateFile(fileId: $fileId, input: $input) {
+  updateFile(fileId: $fileId, data: $input) {
     id
-    file_path
-    file_name
-    file_type
-    updated_at
+    path
+    fileName
+    fileType
     codec
     bitrate
-    sample_rate
+    samplerate
     channels
     duration
     fingerprint
-    track_id
+    trackId
+    createdAt
+    updatedAt
+    stage
   }
 }

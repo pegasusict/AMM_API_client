@@ -1,0 +1,3 @@
+mutation QueueTrack($trackId: Int!) {
+  queueTrack(trackId: $trackId)
+}

@@ -1,21 +1,28 @@
-from services.crud_service import CRUDService
-from models.person import Person
-from models.listed.listed_person import ListedPerson
+from models import Person, ListedPerson
+from . import CRUDService
+from gql import (
+    GET_PERSON,
+    UPDATE_PERSON,
+    DELETE_PERSON,
+    PAGINATED_PERSONS,
+)
 
 
 class PersonService(CRUDService):
-    def __init__(self, gql):
-        super().__init__(gql, list_model=ListedPerson, detail_model=Person)
+    """Service for managing people (artists, composers, etc.)."""
 
-    async def get(self, person_id: int) -> Person:
-        result = await self._exec("get", "get_person.graphql", {"personId": person_id})
-        return self.detail_model(**result["person"])  # type: ignore
+    def __init__(self, gql_client):
+        super().__init__(gql_client, list_model=ListedPerson, detail_model=Person)
+
+    async def get_person(self, person_id: int) -> Person:
+        result = await self._exec("get_person", GET_PERSON, {"personId": person_id})
+        return Person(**result["getPerson"])
 
     async def update_person(self, person_id: int, **fields) -> Person:
-        return await self.update("update_person.graphql", "person", person_id, **fields)
+        return await self.update(UPDATE_PERSON, "person", person_id, **fields)
 
-    async def delete_person(self, person_id: int):
-        return await self.delete("delete_person.graphql", "person", person_id)
+    async def delete_person(self, person_id: int) -> bool:
+        return await self.delete(DELETE_PERSON, "person", person_id)  # type: ignore
 
-    async def paginate_persons(self, limit: int, offset: int):
-        return await self.paginate_with_total("paginated_persons.graphql", "paginatedPersons", limit, offset)
+    async def paginate_persons(self, limit: int = 10, offset: int = 0):
+        return await self.paginate_with_total(PAGINATED_PERSONS, "paginatedPersons", limit, offset)

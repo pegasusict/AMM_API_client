@@ -1,0 +1,3 @@
+mutation SetPosition($seconds: Int!) {
+  setPosition(seconds: $seconds)
+}

@@ -1,77 +1,80 @@
-from pathlib import Path
+# src/gql/__init__.py
+from importlib import resources
 
 
-# Helper to resolve query paths
-def gql_path(file: str) -> str:
-    """Resolves the absolute path to a GraphQL query file within the current package.
-
-    This function constructs the full path to a given GraphQL file name, relative to the directory of this module.
-
-    Args:
-        file: The name of the GraphQL file.
-
-    Returns:
-        The absolute path to the specified GraphQL file as a string.
-    """
-    return str(Path(__file__).parent / file)
+def _load(name: str) -> str:
+    """Helper to load .graphql files from this package."""
+    return resources.files(__package__).joinpath(name).read_text()
 
 
-# Authentication
-LOGIN = gql_path("login.graphql")
-REFRESH = gql_path("refresh.graphql")
-ME = gql_path("me.graphql")
+# ─── Albums ────────────────────────────────────────────────
+GET_ALBUM = _load("get_album.graphql")
+UPDATE_ALBUM = _load("update_album.graphql")
+DELETE_ALBUM = _load("delete_album.graphql")
+PAGINATED_ALBUMS = _load("paginated_albums.graphql")
+SEARCH_ALBUMS = _load("search_albums.graphql")
 
-# Tracks
-GET_TRACK = gql_path("get_track.graphql")
-SEARCH_TRACKS = gql_path("search_tracks.graphql")
-UPDATE_TRACK = gql_path("update_track.graphql")
-DELETE_TRACK = gql_path("delete_track.graphql")
-PAGINATED_TRACKS = gql_path("paginated_tracks.graphql")
-TRACKS_BY_GENRE = gql_path("tracks_by_genre.graphql")
+# ─── Tracks ────────────────────────────────────────────────
+GET_TRACK = _load("get_track.graphql")
+UPDATE_TRACK = _load("update_track.graphql")
+DELETE_TRACK = _load("delete_track.graphql")
+PAGINATED_TRACKS = _load("paginated_tracks.graphql")
+SEARCH_TRACKS = _load("search_tracks.graphql")
+TRACKS_BY_GENRE = _load("tracks_by_genre.graphql")
 
-# Albums
-GET_ALBUM = gql_path("get_album.graphql")
-SEARCH_ALBUMS = gql_path("search_albums.graphql")
-UPDATE_ALBUM = gql_path("update_album.graphql")
-DELETE_ALBUM = gql_path("delete_album.graphql")
-PAGINATED_ALBUMS = gql_path("paginated_albums.graphql")
+# ─── Files ─────────────────────────────────────────────────
+FILES = _load("files.graphql")
+GET_FILE = _load("get_file.graphql")
+UPDATE_FILE = _load("update_file.graphql")
+DELETE_FILE = _load("delete_file.graphql")
+PAGINATED_FILES = _load("paginated_files.graphql")
+SEARCH_FILES = _load("search_files.graphql")
 
-# Genres
-GET_GENRE = gql_path("get_genre.graphql")
-UPDATE_GENRE = gql_path("update_genre.graphql")
-DELETE_GENRE = gql_path("delete_genre.graphql")
-PAGINATED_GENRES = gql_path("paginated_genres.graphql")
+# ─── Genres ────────────────────────────────────────────────
+GET_GENRE = _load("get_genre.graphql")
+UPDATE_GENRE = _load("update_genre.graphql")
+DELETE_GENRE = _load("delete_genre.graphql")
+PAGINATED_GENRES = _load("paginated_genres.graphql")
 
-# Labels
-GET_LABEL = gql_path("get_label.graphql")
-UPDATE_LABEL = gql_path("update_label.graphql")
-DELETE_LABEL = gql_path("delete_label.graphql")
-PAGINATED_LABELS = gql_path("paginated_labels.graphql")
+# ─── Labels ────────────────────────────────────────────────
+GET_LABEL = _load("get_label.graphql")
+UPDATE_LABEL = _load("update_label.graphql")
+DELETE_LABEL = _load("delete_label.graphql")
+PAGINATED_LABELS = _load("paginated_labels.graphql")
 
-# Persons
-GET_PERSON = gql_path("get_person.graphql")
-UPDATE_PERSON = gql_path("update_person.graphql")
-DELETE_PERSON = gql_path("delete_person.graphql")
-PAGINATED_PERSONS = gql_path("paginated_persons.graphql")
+# ─── Persons ───────────────────────────────────────────────
+GET_PERSON = _load("get_person.graphql")
+UPDATE_PERSON = _load("update_person.graphql")
+DELETE_PERSON = _load("delete_person.graphql")
+PAGINATED_PERSONS = _load("paginated_persons.graphql")
 
-# Files
-FILES = gql_path("files.graphql")
-GET_FILE = gql_path("get_file.graphql")
-UPDATE_FILE = gql_path("update_file.graphql")
-DELETE_FILE = gql_path("delete_file.graphql")
-PAGINATED_FILES = gql_path("paginated_files.graphql")
+# ─── Users ─────────────────────────────────────────────────
+GET_USER = _load("get_user.graphql")
+UPDATE_USER = _load("update_user.graphql")
+DELETE_USER = _load("delete_user.graphql")
+PAGINATED_USERS = _load("paginated_users.graphql")
+SEARCH_USERS = _load("search_users.graphql")
 
-# Tasks & Stats
-TASKS = gql_path("tasks.graphql")
-DISPLAY_TASKS = gql_path("display_tasks.graphql")
-TASK_STATS = gql_path("task_stats.graphql")
-TASK_STAT_TREND = gql_path("task_stat_trend.graphql")
-STATS = gql_path("stats.graphql")
-TASK_STAT_SUMMARY = gql_path("task_stat_summary.graphql")
+# ─── Tasks & Stats ─────────────────────────────────────────
+TASKS = _load("tasks.graphql")
+DISPLAY_TASKS = _load("display_tasks.graphql")
+STATS = _load("stats.graphql")
+TASK_STATS = _load("task_stats.graphql")
+TASK_STAT_SUMMARY = _load("task_stat_summary.graphql")
+TASK_STAT_TREND = _load("task_stat_trend.graphql")
 
-# Player
-GET_PLAYER_QUEUE = gql_path("get_player_queue.graphql")
-GET_PLAYER_STATUS = gql_path("get_player_status.graphql")
-PLAYER_STATUS = gql_path("player_status.graphql")
-PLAYER_STATUS_SUBSCRIPTION = gql_path("player_status_subscription.graphql")
-GET_PLAYLIST = gql_path("get_playlist.graphql")
+# ─── Player ────────────────────────────────────────────────
+GET_PLAYER_STATUS = _load("get_player_status.graphql")
+GET_PLAYER_QUEUE = _load("get_player_queue.graphql")
+PLAYER_STATUS = _load("player_status.graphql")
+PLAYER_STATUS_SUBSCRIPTION = _load("player_status_subscription.graphql")
+QUEUE_TRACK = _load("queue_track.graphql")
+PLAY_NEXT = _load("play_next.graphql")
+PAUSE = _load("pause.graphql")
+STOP = _load("stop.graphql")
+SET_POSITION = _load("set_position.graphql")
+
+# ─── Auth ──────────────────────────────────────────────────
+LOGIN = _load("login.graphql")
+REFRESH = _load("refresh.graphql")
+ME = _load("me.graphql")
